@@ -440,7 +440,7 @@ top: 11px;text-align: right;}
 
 /*导航图标*/
 #meauBack{display: none;}
-.sort-side .dl-sort{ float:left; width:50%; }
+.sort-side .dl-sort{ float:left; width:100%; }
 .category-list li.hover .menu-in { border: 1px solid #333; }
 /*.category-list li.hover{border: 2px solid #d83e54; border-right: none; }*/
 /*.category-list li.last.hover ,.category-list li.hover .menu-in{border-bottom-color:transparent ;}*/
@@ -789,6 +789,7 @@ filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#f8c375',endCo
 
 
 }   
+
 	   
 	   
 	   

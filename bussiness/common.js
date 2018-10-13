@@ -1,6 +1,13 @@
 var serverUrl="http://localhost:3001/API/";
 var webUrl="http://localhost:8009";
 // axios.defaults.withCredentials = true;
+
+//获取querystring
+function querystring(item){
+    var svalue = location.search.match(new RegExp("[\?\&]" + item + "=([^\&]*)(\&?)","i"));
+    return svalue ? svalue[1] : svalue;
+}
+
 //判断是否登录
 function isLogin()
 {
@@ -15,6 +22,7 @@ function isLogin()
     }
 }
 
+//获取底部
 function getfooter()
 {
     $(".footer").html("<div class=\"footer-hd\"><p><a href='"+webUrl+"/home/default.html'>书城首页</a>"
@@ -28,6 +36,7 @@ function getsimplehead()
     $(".login-boxtitle").html("<a href=\"default.html\"><img alt=\"logo\" src=\"../images/logobig.png\" /></a>");
 }
 
+//头部
 function gethead()
 {
     $(".mainHead").html("<div class='am-container header'><ul class='message-l login-before'>"
@@ -38,30 +47,69 @@ function gethead()
     +"<div class='topMessage my-shangcheng'><div class='menu-hd MyShangcheng'>"
     +"<a href='#' target='_top'><i class='am-icon-user am-icon-fw'></i>个人中心</a></div>"
     +"</div><div class='topMessage mini-cart'><div class='menu-hd'>"
-    +"<a id='mc-menu-hd' href='#' target='_top'>"
-    +"<i class='am-icon-shopping-cart am-icon-fw'></i><span>购物车</span><strong id='J_MiniCartNum' class='h'>0</strong></a>"
+    +"<a id='mc-menu-hd' href='shopcart.html' target='_top'>"
+    +"<i class='am-icon-shopping-cart am-icon-fw'></i><span>购物车</span></a>"
     +"</div></div><div class='topMessage favorite'><div class='menu-hd'>"
-    +"<a href='#' target='_top'><i class='am-icon-heart am-icon-fw'></i><span>收藏夹</span></a>"
+    +"<a href='javascript:void(0);' onclick='cancelLogin();' target='_top'><span>退出登录</span></a>"
     +"</div></ul></div><div class='nav white'><div class='logo'><img src='../images/logo.png' /></div>"
     +"<div class='logoBig'><li><a href='default.html'><img src='../images/logobig.png'/></a></li></div>"
-    +"<div class='search-bar pr'><a name='index_none_header_sysc' href='#'></a>"
-    +"<form><input id='searchInput' name='index_none_header_sysc' type='text' placeholder='请输入关键字' autocomplete='off'>"
-    +"<input id='ai-topsearch' class='submit am-btn' value='搜索' index='1' type='submit'>"
+    +"<div class='search-bar pr'><a  href='#'></a>"
+    +"<form><input id='searchInput' type='text' placeholder='请输入关键字' autocomplete='off'>"
+    +"<input id='ai-topsearch' class='submit am-btn' value='搜索' onclick='search();' index='1' type='button'>"
     +"</form></div></div><div class='clear'></div>");
+    var name=querystring("key");
+    if(!!name)
+    {
+        $("#searchInput").val(decodeURI(name));  //初始化搜索框
+    }
 }
 
+//产品导航
 function getproductnav()
 {
     $(".product_nav").html("<a href='category.html'><div class='long-title'><span class='all-goods'>全部分类</span></div></a>"+
     "<div class='nav-cont'><ul>"+
     "<li class='index'><a href='default.html'>首页</a></li>"+
     "<li class='qc'><a href='search.html'>所有商品</a></li>"+
-    "<li class='qc last'><a href='search.html'>新书</a></li>"+
+    "<li class='qc last'><a href='search.html?tag=new'>新书</a></li>"+
     "</ul>"+
     "<div class='nav-extra login-after'>"+
     "<i class='am-icon-user-secret am-icon-md nav-user'></i><b></b>我的收藏"+
     "<i class='am-icon-angle-right' style='padding-left: 10px;'></i>"+
     "</div></div>");
+}
+
+//右边导航
+function getrightnav()
+{
+    $(".tip").html("<div id='sidebar'><div id='wrap'>"+
+    "<div id='prof' class='item login-after'>"+
+    "<a href='#'><span class='setting'></span></a>"+
+    "<div class='ibar_login_box status_login'>"+
+    "<div class='avatar_box'>"+
+    "<p class='avatar_imgbox'><img id='img_head' src='../images/no-img_mid_.jpg'/></p>"+
+    "<ul class='user_info'>"+
+    "<li id='li_username'></li>"+
+    "<li id='li_mobile'></li>"+
+    "</ul></div>"+
+    "<div class='login_btnbox'>"+
+    "<a href='#' class='login_order'>我的订单</a>"+
+    "<a href='#' class='login_favorite'>我的收藏</a>"+
+    "</div><i class='icon_arrow_white'></i></div></div>"+
+    "<div id='shopCart' class='item login-after'>"+
+    "<a href='shopcart.html'><span class='message'></span></a>"+
+    "<p>购物车</p></div>"+
+    "<div id='brand' class='item login-after'>"+
+    "<a href='#'>"+
+    "<span class='wdsc'><img src='../images/wdsc.png'/></span>"+
+    "</a>"+
+    "<div class='mp_tooltip'>我的收藏"+
+    "<i class='icon_arrow_right_black'></i>"+
+    "</div></div>"+
+    "<div class='quick_toggle'>"+
+    "<li class='qtitem'>"+
+    "<a href='#top' class='return_top'><span class='top'></span></a>"+
+    "</li></div></div></div>");
 }
 
 function getAllCatgeory()
@@ -98,7 +146,8 @@ function getAllCatgeory()
                         categoryName+='/';
                     }
                     categoryName+=namestr;
-                    categoryNameDetail+="<dd><a title=\""+namestr+"\" href=\"#\"><span>"+namestr+"</span></a></dd>";
+                    categoryNameDetail+="<dd><a title=\""+namestr+"\" href='search.html?cid="
+                    +catgeories[catgeoryTag]._id+"'><span>"+namestr+"</span></a></dd>";
                     catgeoryTag++;
                 }
   
@@ -132,8 +181,53 @@ function getAllCatgeory()
     });   
 }
 
+//根据状态获取登录信息
+function getLoginInfo()
+{
+    var userId=Cookies.get('userinfo');
+    if(!!userId)
+    {
+        $(".login-after").show();
+        $(".login-before").hide();
+        axios.get(serverUrl+'CurrentCustomer/'+userId)
+        .then(function(response) {
+            if(!!response.data&&response.data.success)
+            {
+                var userinfo=response.data;             
+                $("#span_nickname").html(!!userinfo.nickname?userinfo.nickname:"新用户");
+                $("#li_username").html("用户名："+userinfo.username);
+                $("#li_mobile").html("手机："+!!userinfo.mobile?userinfo.mobile:"");
+                if(!!userinfo.headImg)
+                {
+                    $("#img_head").attr("src",userinfo.headImg);
+                    $("#imgUserHead").attr("src",userinfo.headImg);
+                } 
+            }
 
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+    else
+    {
+        $(".login-after").hide();
+        $(".login-before").show();
+    }
+}
 
+//注销登录
+function cancelLogin()
+{
+    Cookies.remove('userinfo');
+    $(".login-before").show();
+    $(".login-after").hide();
+}
+
+function search()
+{
+    var searchValue=$("#searchInput").val().trim();
+    location.href="search.html?key="+encodeURI(searchValue);
+}
 
 $(document).ready(function(){
     if(location.pathname=="/home/login.html"||location.pathname=="/home/register.html")
@@ -143,8 +237,10 @@ $(document).ready(function(){
     else
     {
         gethead();
+        getrightnav();
         getproductnav();
         getAllCatgeory();
+        getLoginInfo();
     }
 
     getfooter();

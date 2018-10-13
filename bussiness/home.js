@@ -25,7 +25,7 @@ function getTopSalesProduct()
                 var tag=index+1;
                 if(tag==1)
                 {
-                    $("#topSales"+tag).html("<a href=\"#\"><div class=\"outer-con\"><div class=\"title\">"
+                    $("#topSales"+tag).html("<a href=\"introduction.html?pid="+item._id+"\"><div class=\"outer-con\"><div class=\"title\">"
                     +item.name+"</div><div class=\"sub-title\">售价：¥"+item.price.$numberDecimal+"</div></div><img src=\""+item.images[0]+"\"/></a>");
                 }
                 else
@@ -35,11 +35,11 @@ function getTopSalesProduct()
                     if(tag<=3)
                     {
                         imgWidth='199px';
-                        imgHeight='199px';
                     }
+                        imgHeight='199px';
                     $("#topSales"+tag).html("<div class=\"outer-con\"><div class=\"title\">"
                     +item.name+"</div><div class=\"sub-title\">售价：¥"
-                    +item.price.$numberDecimal+"</div></div><a href=\"#\"><img width='"+imgWidth+"' height='"+imgHeight+"' src=\""+item.images[0]+"\"/></a>");
+                    +item.price.$numberDecimal+"</div></div><a href=\"introduction.html?pid="+item._id+"\"><img width='"+imgWidth+"' height='"+imgHeight+"' src=\""+item.images[0]+"\"/></a>");
                 }
             });
         }      
@@ -67,7 +67,7 @@ function getTopCollectionProduct()
                 }
                 if(tag==1)
                 {
-                    $("#topCollection"+tag).html("<a href=\"#\"> <img width='"+imgWidth+"' height='"+imgHeight+"' src=\""
+                    $("#topCollection"+tag).html("<a href=\"introduction.html?pid="+item._id+"\"> <img width='"+imgWidth+"' height='"+imgHeight+"' src=\""
                     +item.images[0]+"\"/><div class=\"outer-con\"><div class=\"title\">"
                     +item.name+"</div><div class=\"sub-title\">售价：¥"+item.price.$numberDecimal+"</div></div></a>");
                 }
@@ -76,7 +76,7 @@ function getTopCollectionProduct()
                    
                     $("#topCollection"+tag).html("<div class=\"outer-con\"><div class=\"title\">"
                     +item.name+"</div><div class=\"sub-title\">售价：¥"
-                    +item.price.$numberDecimal+"</div></div><a href=\"#\"><img width='"+imgWidth+"' height='"+imgHeight+"' src=\""+item.images[0]+"\"/></a>");	
+                    +item.price.$numberDecimal+"</div></div><a href=\"introduction.html?pid="+item._id+"\"><img width='"+imgWidth+"' height='"+imgHeight+"' src=\""+item.images[0]+"\"/></a>");	
                 }
             });
         }      
@@ -95,7 +95,7 @@ function getTopCommentProduct()
         {
             var contentHtml="";
             response.data.list.map(function(item,index){
-                contentHtml+="<li><div class=\"list\"><a href=\"#\"><img src=\""
+                contentHtml+="<li><div class=\"list\"><a href=\"introduction.html?pid="+item._id+"\"><img src=\""
                 +item.images[0]+"\"/><div class=\"pro-title\">"
                 +item.name+"</div> <span class=\"e-price\">￥"
                 +item.price.$numberDecimal+"</span></a></div></li>";
@@ -108,53 +108,14 @@ function getTopCommentProduct()
     });   
 }
 
-function getLoginInfo()
-{
-    var userId=Cookies.get('userinfo');
-    if(!!userId)
-    {
-        $(".login-after").show();
-        $(".login-before").hide();
-        axios.get(serverUrl+'CurrentCustomer/'+userId)
-        .then(function(response) {
-            console.log(response);
-            if(!!response.data&&response.data.success)
-            {
-                var userinfo=response.data;
-             
-                $("#span_nickname").html(!!userinfo.nickname?userinfo.nickname:"新用户");
-                $("#li_username").html("用户名："+userinfo.username);
-                $("#li_mobile").html("手机："+!!userinfo.mobile?userinfo.mobile:"");
-                if(!!userinfo.headImg)
-                {
-                    $("#img_head").attr("src",userinfo.headImg);
-                    $("#imgUserHead").attr("src",userinfo.headImg);
-                } 
-            }
 
-        }).catch(function (error) {
-            console.log(error);
-        });
-    }
-    else
-    {
-        $(".login-after").hide();
-        $(".login-before").show();
-    }
-}
 
-//注销登录
-function cancelLogin()
-{
-    Cookies.remove('userinfo');
-    $(".login-before").show();
-    $(".login-after").hide();
-}
+
 
 $(document).ready(function(){
 
     getTopSalesProduct();
     getTopCollectionProduct();
     getTopCommentProduct();
-    getLoginInfo();
+
 });

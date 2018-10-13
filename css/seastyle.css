@@ -111,7 +111,7 @@ dl#select3 .dd-conent{ left:-200%; right:0px;}
 .sort{padding:0px 0px;border-radius: 0px 0px 4px 4px; margin:10px 10px; font-size: 12px;width:auto;overflow: hidden;}
 .sort li{ display:inline; height:35px; line-height:35px; padding:0px 20px;width:auto;border-right:1px dotted #ddd;}
 .sort li.big{display:block;border: none;} 
-.sort li.first{background: #F5F5F5;color: #000;}
+.sort li.first{background: #e8fcfc;color: #000;}
 
 
 /*筛选条件*/

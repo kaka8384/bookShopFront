@@ -152,12 +152,117 @@ function addShopCart()
             console.log(error);
           });
     }
+}
 
+//收藏
+function collect()
+{
+    if(!isLogin())
+    {
+        alert("您还未登录，请先登录！");
+    }
+    else
+    {
+        var userId=Cookies.get('userinfo');
+        var pid=querystring("pid");
+        axios.post(serverUrl+'AddProductCollect', {
+            customerId: userId,
+            product: {
+                productId:pid,
+                name:$("#product_name").html(),
+                img:$("#hidimg").val(),
+                price:$("#product_price").html(),
+            }
+          })
+          .then(function (response) {
+            if(!!response.data)
+            {
+                var returnData=response.data;
+                if(returnData.success)
+                {
+                    alert("商品已收藏！");
+                }
+                else if(returnData.code=="10011")
+                {
+                    alert("商品已收藏！");
+                }
+                else
+                {
+                    alert("商品收藏失败！");
+                }
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+    }
+}
+
+
+//绑定评论列表
+function getCommentList(pagenum,isInitPage)
+{
+    var pid=querystring("pid");
+    var url=serverUrl+'Product_CommentByPage?queryType=1&currentPage='
+    +pagenum+'&pageSize=10&productId='+pid;
+    axios.get(url)
+    .then(function (response) {
+        if(!!response.data)
+        {
+            var htmlcontent="";
+            response.data.list.map(function(item,index){
+                var avatar=!!item.customerHeadImg?item.customerHeadImg:'../images/hwbn40x40.jpg';
+                htmlcontent+="<li class='am-comment'><a href='javascript:void(0);'>"+
+                "<img class='am-comment-avatar' src='"+avatar+"'/>"+
+                "</a>"+
+                "<div class='am-comment-main'>"+
+                "<header class='am-comment-hd'>"+
+                "<div class='am-comment-meta'>"+
+                "<a href='#link-to-user' class='am-comment-author'>"+item.customerName+"</a>"+
+                "评论于<time datetime=''>"+moment(item.updated).format("YYYY年MM月DD日 HH:mm")+"</time>"+
+                "</div></header>"+
+                "<div class='am-comment-bd'>"+
+                "<div class='tb-rev-item ' data-id=''>"+
+                "<div class='J_TbcRate_ReviewContent tb-tbcr-content '>"+item.commentCotent+
+                "</div><div class=’tb-r-act-bar'>评分："+item.commentStar+"星</div></div></div></div></li>"; 
+            });
+            console.log(htmlcontent);
+            $("#ulCommnetList").html(htmlcontent);
+            if(isInitPage&&response.data.list.length>0)
+            {
+                var total=response.data.pagination.total;
+                var current=response.data.pagination.current;
+                $("#spancount").html("("+total+")");
+                initPagination(total,current);
+            }
+        }      
+    })
+    .catch(function (error) {
+        console.log(error);
+    });  
+}
+
+function initPagination(total,current)
+{
+    var visiblePages=Math.floor(total/1)+1;
+    $('#pagination1').jqPaginator({
+        totalCounts: total,
+        pageSize:10,
+        visiblePages:visiblePages,
+        currentPage: current,
+        first:'<li class="first"><a href="javascript:;">首页</a></li>',
+        last:'<li class="last"><a href="javascript:;">末页</a></li>',
+        prev: '<li class="prev"><a href="javascript:;">上一页</a></li>',
+        next: '<li class="next"><a href="javascript:;">下一页</a></li>',
+        page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
+        onPageChange: function (num, type) {
+            getCommentList(num,false);
+        }
+    });
 }
 
 $(document).ready(function(){
     getProductDetail();
-    getTopCollectionProduct();
- 
-							
+    getTopCollectionProduct();	
+    getCommentList(1,true);						
 });

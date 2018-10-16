@@ -226,7 +226,6 @@ function getCommentList(pagenum,isInitPage)
                 "<div class='J_TbcRate_ReviewContent tb-tbcr-content '>"+item.commentCotent+
                 "</div><div class=’tb-r-act-bar'>评分："+item.commentStar+"星</div></div></div></div></li>"; 
             });
-            console.log(htmlcontent);
             $("#ulCommnetList").html(htmlcontent);
             if(isInitPage&&response.data.list.length>0)
             {

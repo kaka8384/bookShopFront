@@ -16,8 +16,8 @@ function getShopcart()
                 response.data.shoppingCat.products.map(function(item,index){
                     htmlcontent+="<ul class='item-content clearfix'>"+
                    "<li class='td td-chk'>"+
-                   "<div class='cart-checkbox '>"+
-                   "<input class='check' id='check_"+index+"'  value='"+item.productId+"' type='checkbox'>"+
+                   "<div class='cart-checkbox'>"+
+                   "<input onclick='checkedProduct(this);' class='check' id='check_"+index+"'  value='"+item.productId+"' type='checkbox'>"+
                    "<label for='check_'"+index+"'></label>"+
                    "</div></li>"+
                    "<li class='td td-item'>"+
@@ -172,6 +172,56 @@ function delShopcart(own,index)
           .catch(function (error) {
             console.log(error);
           });   
+    }
+}
+
+//全选
+function checkedAll(own)
+{
+    var checkStatus=$(own).attr("checked");
+    $(own).parents("div").find(".check").attr("checked",checkStatus);
+
+}
+
+//选择某产品
+function checkedProduct(own)
+{
+    var checkedInput=$(own).parents("div").find(":checked");
+    $("#J_SelectedItemsCount").html(checkedInput.length);
+    var allAmount=0.00;
+    checkedInput.forEach(element => {
+        var amount=$(element).parents("ul").find(".J_ItemSum").html();
+        allAmount+=parseFloat(amount);
+    });
+    $("#J_Total").html(allAmount.toFixed(2));
+}
+
+//结算
+function settleAccount()
+{
+    if(!isLogin())
+    {
+        alert("您还未登录，请先登录！");
+    }
+    else
+    {
+        var submitData=[];
+        var checkedInput=$(own).parents("div").find(":checked");
+        checkedInput.forEach(element => {
+            var pid=$(element).val();
+            var parent=$(own).parents("ul");
+            submitData.push({
+                productId:pid,
+                name:parent.find(".item-title").html(),
+                img:parent.find(".itempic").attr("src"),
+                price:parent.find(".price-now").html(),
+                buyCount:parent.find(".buyCount").val(),
+                amount:parent.find(".number").html(),
+            });
+        });
+        var data=JSON.stringify(submitData[0]);
+        Cookies.set('settleAccountData', data, { expires: 0.015625}); //记录结算信息cookie
+        location.href="pay.html";
     }
 
 }

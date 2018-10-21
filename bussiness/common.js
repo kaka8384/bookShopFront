@@ -73,10 +73,15 @@ function getproductnav()
     "<li class='qc'><a href='../home/search.html'>所有商品</a></li>"+
     "<li class='qc last'><a href='../home/search.html?tag=new'>新书</a></li>"+
     "</ul>"+
-    "<div class='nav-extra login-after'>"+
+    "<div class='nav-extra login-after' onclick='gotocollection();'>"+
     "<i class='am-icon-user-secret am-icon-md nav-user'></i><b></b>我的收藏"+
     "<i class='am-icon-angle-right' style='padding-left: 10px;'></i>"+
     "</div></div>");
+}
+
+function gotocollection()
+{
+    location.href="../person/collection.html";
 }
 
 //右边导航
@@ -114,16 +119,28 @@ function getrightnav()
 
 function getPersonNav()
 {
-   
+
     $(".personNav").html("<ul><li class='person'>"+
     "<a href='javascript:void(0);'>个人中心</a>"+
-    "<ul><li><a href='information.html'>个人信息</a></li>"+
-    "<li><a href='safety.html'>安全设置</a></li>"+
-    "<li><a href='address.html'>收货地址</a></li>"+
-    "<li class='active'><a href='order.html'>订单管理</a></li>"+
-    "<li> <a href='collection.html'>我的收藏</a></li>"+
-    "<li> <a href='comment.html'>我的评价</a></li>"+	
+    "<ul><li class='"+bindPersonNav('information.html')+"'><a href='information.html'>个人信息</a></li>"+
+    "<li class='"+bindPersonNav('safety.html')+"'><a href='safety.html'>安全设置</a></li>"+
+    "<li class='"+bindPersonNav('address.html')+"'><a href='address.html'>收货地址</a></li>"+
+    "<li class='"+bindPersonNav('order.html')+"'><a href='order.html'>订单管理</a></li>"+
+    "<li class='"+bindPersonNav('collection.html')+"'><a href='collection.html'>我的收藏</a></li>"+
+    "<li class='"+bindPersonNav('comment.html')+"'><a href='comment.html'>我的评价</a></li>"+	
     "</ul></li></ul>");
+}
+
+function bindPersonNav(webName)
+{
+    if(location.pathname.indexOf(webName)!=-1)
+    {
+        return "active";
+    }
+    else
+    {
+        return "";
+    }
 }
 
 function getAllCatgeory()

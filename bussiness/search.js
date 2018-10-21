@@ -42,12 +42,18 @@ function getProductList(pagenum,isInitPage)
                 "</div></a></li>";
             });
             $("#ulProduct").html(htmlcontent);
-            if(isInitPage&&response.data.list.length>0)
+            var listCount=response.data.list.length;
+            if(listCount<=0)
+            {
+                $('#pagination1').hide();
+            }
+            else if(isInitPage&&listCount>0)
             {
                 var total=response.data.pagination.total;
                 var current=response.data.pagination.current;
                 $("#spancount").html(total);
                 initPagination(total,current);
+                $('#pagination1').show();
             }
         }      
     })

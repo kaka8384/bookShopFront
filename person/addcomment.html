@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+
+		<title>发表评论</title>
+
+		<link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
+		<link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
+		<link href="../basic/css/demo.css" rel="stylesheet" type="text/css" />
+		<link href="../css/personal.css" rel="stylesheet" type="text/css">
+		<link href="../css/appstyle.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+		<script src="../js/js.cookie.min.js"></script>
+		<script src="../js/axios.min.js"></script>
+		<script src="../bussiness/common.js"></script>
+		<script src="../bussiness/addcomment.js"></script>
+	</head>
+
+	<body>
+		<!--头 -->
+		<div class="mainHead"></div>
+            <div class="nav-table product_nav">
+			</div>
+			<b class="line"></b>
+		<div class="center">
+			<div class="col-main">
+				<div class="main-wrap">
+
+					<div class="user-comment">
+						<!--标题 -->
+						<div class="am-cf am-padding">
+							<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">发表评论</strong> / <small>Make&nbsp;Comments</small></div>
+						</div>
+						<hr/>
+
+						<div class="comment-main">
+							<div class="comment-list">
+								<div class="item-pic">
+									<a href="#" target="_blank" class="J_MakePoint">
+										<img id="imgProduct" width="148px;" height="148px;" src="" class="itempic">
+									</a>
+								</div>
+								<div class="item-title">
+
+									<div class="item-name">
+										<a href="#" target="_blank">
+											<p id="productName" class="item-basic-info"></p>
+										</a>
+									</div>
+									<div class="item-info">
+										<div class="item-price">
+											价格：<strong  id="productPrice"></strong>
+										</div>										
+									</div>
+								</div>
+								<div class="clear"></div>
+								<div class="item-comment">
+									<textarea id="txtcommentCotent" placeholder="请写下对宝贝的感受吧，对他人帮助很大哦！"></textarea>
+								</div>
+								<div class="item-opinion">
+									评分：<select id="selcommentStar">
+										<option value="5">5分</option>
+										<option value="4">4分</option>
+										<option value="3">3分</option>
+										<option value="2">2分</option>
+										<option value="1">1分</option>
+									</select>
+								</div>
+							</div>					
+								<div class="info-btn">
+									<div onclick="addComment();" class="am-btn am-btn-danger">发表评论</div>
+								</div>							
+						</div>
+
+					</div>
+
+				</div>
+				<!--底部-->
+				<div class="footer">
+				</div>
+			</div>
+			<input type="hidden" id="userHead"/>
+			<input type="hidden" id="userNickName"/>
+			<input type="hidden" id="orderNumber"/>
+			<aside class="menu personNav">
+			</aside>
+		</div>
+
+	</body>
+
+</html>

@@ -26,6 +26,7 @@ function userLogin()
                 if(returnData.success)
                 {
                   Cookies.set('userinfo', returnData.userInfo.userId, { expires: 1}); //记录登录信息cookie
+                  Cookies.set('useraccount', returnData.userInfo.username, { expires: 1}); 
                   if($("#remember-me").prop("checked"))
                   {
                     Cookies.set('login_username', _username, { expires: 1});

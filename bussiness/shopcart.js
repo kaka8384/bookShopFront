@@ -179,21 +179,28 @@ function delShopcart(own,index)
 function checkedAll(own)
 {
     var checkStatus=$(own).attr("checked");
-    $(own).parents("div").find(".check").attr("checked",checkStatus);
+    var allcheckbox=$("#divShopCart").find(".check");
+    allcheckbox.attr("checked",checkStatus?true:false);
+    checkedProduct(allcheckbox[0]);
 
 }
 
 //选择某产品
 function checkedProduct(own)
 {
-    var checkedInput=$(own).parents("div").find(":checked");
-    $("#J_SelectedItemsCount").html(checkedInput.length);
+    var checkedInput=$("#divShopCart").find(":checked");
+    var allBuyCount=0;
     var allAmount=0.00;
-    checkedInput.forEach(element => {
-        var amount=$(element).parents("ul").find(".J_ItemSum").html();
+    for(var i=0;i<checkedInput.length;i++)
+    {
+        var parent=$(checkedInput[i]).parents("ul");
+        var amount=parent.find(".J_ItemSum").html();
+        var buycount=parent.find(".buyCount").val();
         allAmount+=parseFloat(amount);
-    });
+        allBuyCount+=parseInt(buycount);
+    }
     $("#J_Total").html(allAmount.toFixed(2));
+    $("#J_SelectedItemsCount").html(allBuyCount);
 }
 
 //结算
@@ -205,11 +212,17 @@ function settleAccount()
     }
     else
     {
+        var checkedInput=$("#divShopCart").find(":checked");
+        if(checkedInput.length==0)
+        {
+            alert("您还未选择要结算的商品！");
+            return;
+        }
         var submitData=[];
-        var checkedInput=$(own).parents("div").find(":checked");
-        checkedInput.forEach(element => {
-            var pid=$(element).val();
-            var parent=$(own).parents("ul");
+        for(var i=0;i<checkedInput.length;i++)
+        {
+            var pid=$(checkedInput[i]).val();
+            var parent=$(checkedInput[i]).parents("ul");
             submitData.push({
                 productId:pid,
                 name:parent.find(".item-title").html(),
@@ -218,12 +231,11 @@ function settleAccount()
                 buyCount:parent.find(".buyCount").val(),
                 amount:parent.find(".number").html(),
             });
-        });
-        var data=JSON.stringify(submitData[0]);
-        Cookies.set('settleAccountData', data, { expires: 0.015625}); //记录结算信息cookie
+        }
+        var data=JSON.stringify(submitData);
+        Cookies.set('settleAccountData', data, { expires: 0.0104167}); //记录结算信息cookie,缓存15分钟
         location.href="pay.html";
     }
-
 }
 
 $(document).ready(function(){

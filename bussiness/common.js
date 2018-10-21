@@ -43,16 +43,16 @@ function gethead()
     +"<div class='topMessage'><div class='menu-hd'>"
     +"<a href='login.html' target='_top' class='h'>亲，请登录</a>&nbsp;<a href='register.html' target='_top'>免费注册</a>"
     +"</div></div></ul><ul class='message-r login-after'><div class='topMessage home'>"
-    +"<div class='menu-hd'><a href='default.html' target='_top' class='h'>商城首页</a></div></div>"
+    +"<div class='menu-hd'><a href='../home/default.html' target='_top' class='h'>商城首页</a></div></div>"
     +"<div class='topMessage my-shangcheng'><div class='menu-hd MyShangcheng'>"
-    +"<a href='#' target='_top'><i class='am-icon-user am-icon-fw'></i>个人中心</a></div>"
+    +"<a href='../person/information.html' target='_top'><i class='am-icon-user am-icon-fw'></i>个人中心</a></div>"
     +"</div><div class='topMessage mini-cart'><div class='menu-hd'>"
-    +"<a id='mc-menu-hd' href='shopcart.html' target='_top'>"
+    +"<a id='mc-menu-hd' href='../home/shopcart.html' target='_top'>"
     +"<i class='am-icon-shopping-cart am-icon-fw'></i><span>购物车</span></a>"
     +"</div></div><div class='topMessage favorite'><div class='menu-hd'>"
     +"<a href='javascript:void(0);' onclick='cancelLogin();' target='_top'><span>退出登录</span></a>"
     +"</div></ul></div><div class='nav white'><div class='logo'><img src='../images/logo.png' /></div>"
-    +"<div class='logoBig'><li><a href='default.html'><img src='../images/logobig.png'/></a></li></div>"
+    +"<div class='logoBig'><li><a href='../home/default.html'><img src='../images/logobig.png'/></a></li></div>"
     +"<div class='search-bar pr'><a  href='#'></a>"
     +"<form><input id='searchInput' type='text' placeholder='请输入关键字' autocomplete='off'>"
     +"<input id='ai-topsearch' class='submit am-btn' value='搜索' onclick='search();' index='1' type='button'>"
@@ -67,11 +67,11 @@ function gethead()
 //产品导航
 function getproductnav()
 {
-    $(".product_nav").html("<a href='category.html'><div class='long-title'><span class='all-goods'>全部分类</span></div></a>"+
+    $(".product_nav").html("<a href='javascript:void(0);'><div class='long-title'><span class='all-goods'>全部分类</span></div></a>"+
     "<div class='nav-cont'><ul>"+
-    "<li class='index'><a href='default.html'>首页</a></li>"+
-    "<li class='qc'><a href='search.html'>所有商品</a></li>"+
-    "<li class='qc last'><a href='search.html?tag=new'>新书</a></li>"+
+    "<li class='index'><a href='../home/default.html'>首页</a></li>"+
+    "<li class='qc'><a href='../home/search.html'>所有商品</a></li>"+
+    "<li class='qc last'><a href='../home/search.html?tag=new'>新书</a></li>"+
     "</ul>"+
     "<div class='nav-extra login-after'>"+
     "<i class='am-icon-user-secret am-icon-md nav-user'></i><b></b>我的收藏"+
@@ -93,14 +93,14 @@ function getrightnav()
     "<li id='li_mobile'></li>"+
     "</ul></div>"+
     "<div class='login_btnbox'>"+
-    "<a href='#' class='login_order'>我的订单</a>"+
-    "<a href='#' class='login_favorite'>我的收藏</a>"+
+    "<a href='../person/order.html' class='login_order'>我的订单</a>"+
+    "<a href='../person/comment.html' class='login_favorite'>我的评论</a>"+
     "</div><i class='icon_arrow_white'></i></div></div>"+
     "<div id='shopCart' class='item login-after'>"+
-    "<a href='shopcart.html'><span class='message'></span></a>"+
+    "<a href='../home/shopcart.html'><span class='message'></span></a>"+
     "<p>购物车</p></div>"+
     "<div id='brand' class='item login-after'>"+
-    "<a href='#'>"+
+    "<a href='../person/collection.html'>"+
     "<span class='wdsc'><img src='../images/wdsc.png'/></span>"+
     "</a>"+
     "<div class='mp_tooltip'>我的收藏"+
@@ -110,6 +110,20 @@ function getrightnav()
     "<li class='qtitem'>"+
     "<a href='#top' class='return_top'><span class='top'></span></a>"+
     "</li></div></div></div>");
+}
+
+function getPersonNav()
+{
+   
+    $(".personNav").html("<ul><li class='person'>"+
+    "<a href='javascript:void(0);'>个人中心</a>"+
+    "<ul><li><a href='information.html'>个人信息</a></li>"+
+    "<li><a href='safety.html'>安全设置</a></li>"+
+    "<li><a href='address.html'>收货地址</a></li>"+
+    "<li class='active'><a href='order.html'>订单管理</a></li>"+
+    "<li> <a href='collection.html'>我的收藏</a></li>"+
+    "<li> <a href='comment.html'>我的评价</a></li>"+	
+    "</ul></li></ul>");
 }
 
 function getAllCatgeory()
@@ -219,6 +233,7 @@ function getLoginInfo()
 function cancelLogin()
 {
     Cookies.remove('userinfo');
+    Cookies.remove('useraccount');
     $(".login-before").show();
     $(".login-after").hide();
 }
@@ -233,6 +248,13 @@ $(document).ready(function(){
     if(location.pathname=="/home/login.html"||location.pathname=="/home/register.html")
     {
         getsimplehead();
+    }
+    else if(location.pathname.indexOf("/person/")!=-1)
+    {
+        
+        gethead();
+        getproductnav();
+        getPersonNav();
     }
     else
     {

@@ -113,7 +113,7 @@ function selectImg(own)
     $(".jqzoom").attr('rel', $(own).find("img").attr("big"));
 }
 
-function addShopCart()
+function addShopCart(isBuy)
 {
     if(!isLogin())
     {
@@ -139,12 +139,25 @@ function addShopCart()
                 var returnData=response.data;
                 if(returnData.success)
                 {
-                    alert("商品已添加到购物车！");
-
+                    if(isBuy)
+                    {
+                        location.href='shopcart.html';
+                    }
+                    else
+                    {
+                        alert("商品已添加到购物车！");
+                    }
                 }
                 else
                 {
-                    alert("将商品添加到购物车中失败！");
+                    if(isBuy)
+                    {
+                        alert("购买商品失败！");
+                    }
+                    else
+                    {
+                        alert("将商品添加到购物车中失败！");
+                    }
                 }
             }
           })
@@ -152,6 +165,11 @@ function addShopCart()
             console.log(error);
           });
     }
+}
+
+function buy()
+{
+    addShopCart(true);
 }
 
 //收藏
@@ -227,12 +245,18 @@ function getCommentList(pagenum,isInitPage)
                 "</div><div class=’tb-r-act-bar'>评分："+item.commentStar+"星</div></div></div></div></li>"; 
             });
             $("#ulCommnetList").html(htmlcontent);
-            if(isInitPage&&response.data.list.length>0)
+            var listCount=response.data.list.length;
+            if(listCount<=0)
+            {
+                $('#pagination1').hide();
+            }
+            else if(isInitPage&&listCount>0)
             {
                 var total=response.data.pagination.total;
                 var current=response.data.pagination.current;
                 $("#spancount").html("("+total+")");
                 initPagination(total,current);
+                $('#pagination1').show();
             }
         }      
     })

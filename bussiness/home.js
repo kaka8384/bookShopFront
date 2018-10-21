@@ -109,9 +109,6 @@ function getTopCommentProduct()
 }
 
 
-
-
-
 $(document).ready(function(){
 
     getTopSalesProduct();

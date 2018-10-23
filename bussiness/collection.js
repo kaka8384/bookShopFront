@@ -1,12 +1,7 @@
 function getCollections(pagenum,isInitPage)
 {
     var userId=Cookies.get('userinfo');
-    var url=serverUrl+'Product_CollectByPage?currentPage='+pagenum+'&pageSize=10&customerId='+userId;
-    // var status=$("#selOrderStatus").val();
-    // if(status!=0)
-    // {
-    //     url+="&lastStatus="+status;
-    // }
+    var url=serverUrl+'Product_CollectByPage?currentPage='+pagenum+'&pageSize=2&customerId='+userId;
     axios.get(url)
     .then(function (response) {
         if(!!response.data)
@@ -17,23 +12,20 @@ function getCollections(pagenum,isInitPage)
                 htmlcontent+="<div class='s-item-wrap'>"+
                "<div class='s-item'>"+
                "<div class='s-pic'>"+
-               "<a href='../person/introduction.html?pid="+item.product.productId+"' class='s-pic-link'>"+
-               "<img class='product_img' src='"+item.product.img+"' alt='"+item.product.name+"' title='"+item.product.name+"' class='s-pic-img s-guess-item-img'>"+
+               "<a href='../home/introduction.html?pid="+item.product.productId+"' class='s-pic-link'>"+
+               "<img width='186px;' height='186px;' class='product_img' src='"+item.product.img+"' alt='"+item.product.name+"' title='"+item.product.name+"' class='s-pic-img s-guess-item-img'>"+
                "</a>"+
                "</div>"+
                "<div class='s-info'>"+
-               "<div class='s-title'><a class='product_name' href='../person/introduction.html?pid="+item.product.productId+"' title='"+item.product.name+"'>"+item.product.name+"</a></div>"+
+               "<div class='s-title'><a class='product_name' href='../home/introduction.html?pid="+item.product.productId+"' title='"+item.product.name+"'>"+item.product.name+"</a></div>"+
                "<div class='s-price-box'>"+
                "<span class='s-price'><em class='s-price-sign'>¥</em><em class='s-value product_price'>"+item.product.price.$numberDecimal+"</em></span>"+
                "</div>"+
                "</div>"+
                "<div class='s-tp'>"+
-               "<span class='ui-btn-loading-before'>删除</span>"+
+               "<span onclick='deleteCollection(\""+item._id+"\");' class='ui-btn-loading-before'>取消收藏</span>"+
                "<i class='am-icon-shopping-cart'></i>"+
                "<span onclick='addShopCart(this,\""+item.product.productId+"\");' class='ui-btn-loading-before buy'>加入购物车</span>"+
-               "<p>"+
-               "<a href='javascript:deleteCollection(\""+item._id+"\");' class='c-nodo J_delFav_btn'>取消收藏</a>"+
-               "</p>"+
                "</div>"+
                "</div>"+
                "</div>";
@@ -64,7 +56,7 @@ function initPagination(total,current)
     var visiblePages=Math.floor(total/1)+1;
     $('#pagination1').jqPaginator({
         totalCounts: total,
-        pageSize:10,
+        pageSize:2,
         visiblePages:visiblePages,
         currentPage: current,
         first:'<li class="first"><a href="javascript:;">首页</a></li>',
@@ -74,7 +66,7 @@ function initPagination(total,current)
         page: '<li class="page"><a href="javascript:;">{{page}}</a></li>',
         onPageChange: function (num, type) {
             getCollections(num,false);
-            $("#hidPageNum").val(num);
+            // $("#hidPageNum").val(num);
         }
     });
 }
@@ -139,8 +131,8 @@ function deleteCollection(collectionId)
                 {
                     alert("商品已从收藏中删除！");
                     //刷新页面列表
-                    var num=parseInt($("#hidPageNum").val());
-                    getCollections(num,true);
+                    // var num=parseInt($("#hidPageNum").val());
+                    getCollections(1,true);
                     
                 }
                 else if(returnData.code==10012)

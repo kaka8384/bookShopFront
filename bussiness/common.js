@@ -123,7 +123,7 @@ function getPersonNav()
     $(".personNav").html("<ul><li class='person'>"+
     "<a href='javascript:void(0);'>个人中心</a>"+
     "<ul><li class='"+bindPersonNav('information.html')+"'><a href='information.html'>个人信息</a></li>"+
-    "<li class='"+bindPersonNav('password.html')+"'><a href='safety.html'>修改密码</a></li>"+
+    "<li class='"+bindPersonNav('password.html')+"'><a href='password.html'>修改密码</a></li>"+
     "<li class='"+bindPersonNav('address.html')+"'><a href='address.html'>收货地址</a></li>"+
     "<li class='"+bindPersonNav('order.html')+"'><a href='order.html'>订单管理</a></li>"+
     "<li class='"+bindPersonNav('collection.html')+"'><a href='collection.html'>我的收藏</a></li>"+

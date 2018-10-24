@@ -7,7 +7,7 @@ function getCustomerInfo()
         .then(function(response) {
             if(!!response.data&&response.data.success)
             {
-                var userinfo=response.data;      
+                var userinfo=response.data;    
                 $("#username").html(userinfo.username);  
                 if(!!userinfo.headImg)
                 {
@@ -30,18 +30,17 @@ function getCustomerInfo()
                 }
                 if(!!userinfo.brithDay)
                 {
-                    $("#brithDay").val(userinfo.brithDay);
+                    $("#brithDay").val(moment(userinfo.brithDay).format('YYYY-MM-DD'));
                 }
-                if(!!userinfo.moblie)
+                if(!!userinfo.mobile)
                 {
-                    $("#user-phone").val(userinfo.moblie);
+                    $("#user-phone").val(userinfo.mobile);
                 }
                 if(!!userinfo.mail)
                 {
                     $("#user-email").val(userinfo.mail);
                 }
             }
-
         }).catch(function (error) {
             console.log(error);
         });
@@ -95,6 +94,7 @@ function save()
             if(returnData.success)
             {
               alert("保存修改成功！");
+              getCustomerInfo();
             }
             else if(returnData.code=="10002")
             {
@@ -132,8 +132,10 @@ function uploadHeadImg(own)
           .then(response => {
             if (!!response.data) {
                 var returnData=response.data;
+         
                 if(returnData.success)
                 {
+                    alert("头像上传成功,请保存修改！");
                     $("#headImg").attr("src",returnData.url);
                 }
             }
@@ -142,8 +144,6 @@ function uploadHeadImg(own)
             console.log(error);
           });
       }
-    //   console.log(($(own).context.files));
-    //https://blog.csdn.net/qq_24147051/article/details/76862073?locationNum=4&fps=1
 }
 
 //初始化日期控件

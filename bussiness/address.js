@@ -30,7 +30,7 @@ function getMyAddressList()
                "<span class='street'>"+item.address+"</span></p>"+
                "</div>"+
                "<div class='new-addr-btn'>"+
-               "<a href='javascript:bindUpdateData(this,\""+item._id+"\");'><i class='am-icon-edit'></i>编辑</a>"+
+               "<a onclick='bindUpdateData(this,\""+item._id+"\");' href='javascript:void(0);'><i class='am-icon-edit'></i>编辑</a>"+
                "<span class='new-addr-bar'>|</span>"+
                "<a href='javascript:delAddress(\""+item._id+"\");'><i class='am-icon-trash'></i>删除</a>"+
                "</div>"+
@@ -78,7 +78,7 @@ function initProvince()
 
 function changeCity(own)
 {
-    var url=serverUrl+'QueryCity/'+$(own).attr("code");
+    var url=serverUrl+'QueryCity/'+$(own).find(":checked").attr("code");
     axios.get(url)
     .then(function (response) {
         if(!!response.data)
@@ -97,7 +97,7 @@ function changeCity(own)
 
 function changeDistrict(own)
 {
-    var url=serverUrl+'QueryDistrict/'+$(own).attr("code");
+    var url=serverUrl+'QueryDistrict/'+$(own).find(":checked").attr("code");
     axios.get(url)
     .then(function (response) {
         if(!!response.data)
@@ -134,7 +134,7 @@ function saveAddress()
         $("#user-name").focus();
         return false;
     } 
-    if(mobile!=""&&!(/^1[34578]\d{9}$/.test(mobile))){ 
+    if(!(/^1[34578]\d{9}$/.test(mobile))){ 
         alert("请填写正确的手机号码！");  
         $("#user-phone").focus();
         return false;
@@ -227,13 +227,14 @@ function saveAddress()
 //绑定要编辑的地址
 function bindUpdateData(own,aid)
 {
-    var parent=$(own).parents("li");
-    $("#user-name").val(parent.find(".name").htnml());
-    $("#user-phone").val(parent.find(".mobile").htnml());
-    $("#selprovince").val(parent.find(".province").htnml());
-    $("#selcity").val(parent.find(".city").htnml());
-    $("#seldistrict").val(parent.find(".dist").htnml());
-    $("#txtAddress").val(parent.find(".street").htnml());
+    var parent=$(own).parent().parent();
+    $("#user-name").val(parent.find(".name").html());
+    $("#user-phone").val(parent.find(".mobile").html());
+    $("#selprovince").val(parent.find(".province").html());
+    changeCity($("#selprovince"));
+    $("#selcity").val(parent.find(".city").html());
+    $("#seldistrict").val(parent.find(".dist").html());
+    $("#txtAddress").val(parent.find(".street").html());
     $("#txtEditType").val("update");
     $("#txtAddressId").val(aid);
 }

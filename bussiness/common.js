@@ -272,6 +272,7 @@ $(document).ready(function(){
         gethead();
         getproductnav();
         getPersonNav();
+        getLoginInfo();
     }
     else
     {

@@ -40,7 +40,7 @@ function savePassword()
         return;
     }
     else{
-        axios.post(serverUrl+'UpdatePassword/'+userId, {
+        axios.put(serverUrl+'UpdatePassword/'+userId, {
             newpassword: newpassword,
             oldpassword: oldpassword
           })

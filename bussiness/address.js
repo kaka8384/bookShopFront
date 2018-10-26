@@ -233,10 +233,13 @@ function bindUpdateData(own,aid)
     $("#selprovince").val(parent.find(".province").html());
     changeCity($("#selprovince"));
     $("#selcity").val(parent.find(".city").html());
+    changeDistrict($("#seldistrict"));
     $("#seldistrict").val(parent.find(".dist").html());
     $("#txtAddress").val(parent.find(".street").html());
     $("#txtEditType").val("update");
     $("#txtAddressId").val(aid);
+    $("#editTitleCN").html("修改地址");
+    $("#editTitleEN").html("Update&nbsp;address");
 }
 
 function delAddress(aid)
@@ -292,9 +295,6 @@ function setDefault(own,aid)
               $(own).attr("onclick","").html("<i class='am-icon-check-circle'></i>默认地址");
               var parent=$(own).parents("li");
               parent.siblings("li").removeClass("defaultAddr");
-              parent.addClass("defaultAddr");
-            //   getMyAddressList();
-            //   clearEdit();
             }
             else
             {
@@ -317,6 +317,8 @@ function clearEdit()
     $("#txtAddress").val("");
     $("#txtEditType").val("add");
     $("#txtAddressId").val("");
+    $("#editTitleCN").html("新增地址");
+    $("#editTitleEN").html("Add&nbsp;address");
 }
 
 $(document).ready(function(){

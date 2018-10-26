@@ -1,7 +1,7 @@
 function getCollections(pagenum,isInitPage)
 {
     var userId=Cookies.get('userinfo');
-    var url=serverUrl+'Product_CollectByPage?currentPage='+pagenum+'&pageSize=2&customerId='+userId;
+    var url=serverUrl+'Product_CollectByPage?currentPage='+pagenum+'&pageSize=10&customerId='+userId;
     axios.get(url)
     .then(function (response) {
         if(!!response.data)
@@ -56,7 +56,7 @@ function initPagination(total,current)
     var visiblePages=Math.floor(total/1)+1;
     $('#pagination1').jqPaginator({
         totalCounts: total,
-        pageSize:2,
+        pageSize:10,
         visiblePages:visiblePages,
         currentPage: current,
         first:'<li class="first"><a href="javascript:;">首页</a></li>',

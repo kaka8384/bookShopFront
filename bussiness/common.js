@@ -26,9 +26,9 @@ function isLogin()
 function getfooter()
 {
     $(".footer").html("<div class=\"footer-hd\"><p><a href='"+webUrl+"/home/default.html'>书城首页</a>"
-    +"<b>|</b><a href=''>后台管理</a>"
-    +"<b>|</b><a href=''>GitHub</a>"
-    +"<b>|</b><a href=''''>Antd</a></p></div>");
+    +"<b>|</b><a target='_blank' href='http://localhost:8000/#/'>后台管理</a>"
+    +"<b>|</b><a target='_blank' href='https://github.com/kaka8384'>GitHub</a>"
+    +"<b>|</b><a target='_blank' href='https://ant.design/index-cn'>Antd</a></p></div>");
 }
 
 function getsimplehead()
@@ -41,7 +41,7 @@ function gethead()
 {
     $(".mainHead").html("<div class='am-container header'><ul class='message-l login-before'>"
     +"<div class='topMessage'><div class='menu-hd'>"
-    +"<a href='login.html' target='_top' class='h'>亲，请登录</a>&nbsp;<a href='register.html' target='_top'>免费注册</a>"
+    +"<a href='login.html' target='_top' class='h'>亲，请登录</a>&nbsp;<a href='../home/register.html' target='_top'>免费注册</a>"
     +"</div></div></ul><ul class='message-r login-after'><div class='topMessage home'>"
     +"<div class='menu-hd'><a href='../home/default.html' target='_top' class='h'>商城首页</a></div></div>"
     +"<div class='topMessage my-shangcheng'><div class='menu-hd MyShangcheng'>"
@@ -258,7 +258,7 @@ function cancelLogin()
 function search()
 {
     var searchValue=$("#searchInput").val().trim();
-    location.href="search.html?key="+encodeURI(searchValue);
+    location.href="../home/search.html?key="+encodeURI(searchValue);
 }
 
 $(document).ready(function(){

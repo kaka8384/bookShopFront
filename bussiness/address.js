@@ -76,35 +76,51 @@ function initProvince()
     }); 
 }
 
-function changeCity(own)
-{
-    var url=serverUrl+'QueryCity/'+$(own).find(":checked").attr("code");
+function changeCity(own,defaultvalue,defaultdist)
+{ 
+    var url=serverUrl+'QueryCity/'+$(own).find(":selected").attr("code");
     axios.get(url)
     .then(function (response) {
         if(!!response.data)
         {
             var htmlcontent="<option value='0'>请选择</option>";
             response.data.list.map(function(item,index){
-                htmlcontent+="<option code='"+item.item_code+"' value='"+item.item_name+"'>"+item.item_name+"</option>";
+                var selected="";
+               
+                if(item.item_name==defaultvalue)
+                {
+                    selected="selected='true'";
+                    $("#hidUpdateCityCode").val(item.item_code);
+                    changeDistrict($("#selcity"),defaultdist);
+                }
+                htmlcontent+="<option "+selected+" code='"+item.item_code+"' value='"+item.item_name+"'>"+item.item_name+"</option>";
             });
             $("#selcity").html(htmlcontent);
         }      
     })
-    .catch(function (error) {
+    .catch(function (error) {defaultvalue
         console.log(error);
     }); 
 }
 
-function changeDistrict(own)
-{
-    var url=serverUrl+'QueryDistrict/'+$(own).find(":checked").attr("code");
+function changeDistrict(own,defaultvalue)
+{        
+    var code=defaultvalue==undefined?$(own).find(":selected").attr("code"):$("#hidUpdateCityCode").val();
+    var url=serverUrl+'QueryDistrict/'+code;
     axios.get(url)
     .then(function (response) {
         if(!!response.data)
         {
             var htmlcontent="<option value='0'>请选择</option>";
             response.data.list.map(function(item,index){
-                htmlcontent+="<option code='"+item.item_code+"' value='"+item.item_name+"'>"+item.item_name+"</option>";
+                var selected="";
+
+                if(item.item_name==defaultvalue)
+                {
+         
+                    selected="selected='true'";
+                }
+                htmlcontent+="<option "+selected+" code='"+item.item_code+"' value='"+item.item_name+"'>"+item.item_name+"</option>";
             });
             $("#seldistrict").html(htmlcontent);
         }      
@@ -177,13 +193,13 @@ function saveAddress()
                 var returnData=response.data;
                 if(returnData.success)
                 {
-                  alert("修改地址成功！");
+                  alert("新增地址成功！");
                   getMyAddressList();
                   clearEdit();
                 }
                 else
                 {
-                  alert("修改地址失败！");
+                  alert("新增地址失败！");
                 }
             }
           })
@@ -191,7 +207,7 @@ function saveAddress()
             console.log(error);
           });
     }
-    else if(tye=="update")
+    else if(type=="update")
     {
         var addressId=$("#txtAddressId").val();
         axios.put(serverUrl+'UpdateAddress/'+addressId, {
@@ -208,13 +224,13 @@ function saveAddress()
                 var returnData=response.data;
                 if(returnData.success)
                 {
-                  alert("新增地址成功！");
+                  alert("修改地址成功！");
                   getMyAddressList();
                   clearEdit();
                 }
                 else
                 {
-                  alert("新增地址失败！");
+                  alert("修改地址失败！");
                 }
             }
           })
@@ -230,11 +246,14 @@ function bindUpdateData(own,aid)
     var parent=$(own).parent().parent();
     $("#user-name").val(parent.find(".name").html());
     $("#user-phone").val(parent.find(".mobile").html());
-    $("#selprovince").val(parent.find(".province").html());
-    changeCity($("#selprovince"));
-    $("#selcity").val(parent.find(".city").html());
-    changeDistrict($("#seldistrict"));
-    $("#seldistrict").val(parent.find(".dist").html());
+    var province=parent.find(".province").html();
+    var city=parent.find(".city").html();
+    var dist=parent.find(".dist").html();
+    $("#selprovince").val(province);
+    changeCity($("#selprovince"),city,dist);
+    // $("#selcity").val(city);
+    // changeDistrict($("#selcity"),dist);
+    // $("#seldistrict").val(dist);
     $("#txtAddress").val(parent.find(".street").html());
     $("#txtEditType").val("update");
     $("#txtAddressId").val(aid);

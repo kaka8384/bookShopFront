@@ -1,7 +1,8 @@
 function getcomment(pagenum,isInitPage)
 {
     var userId=Cookies.get('userinfo');
-    var url=serverUrl+'Product_CommentByPage?currentPage='+pagenum+'&pageSize=10&customerId='+userId;
+    var url=serverUrl+'Product_CommentByPage?queryType=1&currentPage='
+    +pagenum+'&pageSize=10&customerId='+userId;
     axios.get(url)
     .then(function (response) {
         if(!!response.data)
@@ -12,13 +13,13 @@ function getcomment(pagenum,isInitPage)
                 htmlcontent+="<li class='td td-item'>"+
                "<div class='item-pic'>"+
                "<a href='javascript:void(0);' class='J_MakePoint'>"+
-               "<img src='../images/kouhong.jpg_80x80.jpg' class='itempic'>"+
+               "<img width='78px;' height='78px;' src='../images/timg.jpg' class='itempic'>"+
                "</a>"+
                "</div>"+
                "</li>"+
                "<li class='td td-comment'>"+
                "<div class='item-title'>"+
-               "<div class='item-opinion'>"+item.commentStar+"星</div>"+
+            //    "<div class='item-opinion'>"+item.commentStar+"星</div>"+
                "<div class='item-name'>"+
                "<a href='introduction.html?pid="+item.productId+"'>"+
                "<p class='item-basic-info'>"+item.productName+"</p>"+
@@ -28,11 +29,11 @@ function getcomment(pagenum,isInitPage)
                "<div class='item-comment'>"+item.commentCotent+"</div>"+
                "<div class='item-info'>"+
                "<div>"+
-               "<p class='info-little'><span>"+item.orderNumber+"</span><span><a onclick='delcomment(\""+item._id+"\");'>删除评论</a></span></p>"+
+               "<p class='info-little'><span>"+item.commentStar+"星</span><span><a href='javascript:void(0);' onclick='delcomment(\""+item._id+"\");'>删除评论</a></span></p>"+
                "<p class='info-time'>"+moment(item.updated).format("YYYY-MM-DD")+"</p>"+
                "</div>"+
                "</div>"+
-               "</li>";
+               "</li><div class='clear'></div>";
             });
             $("#divComments").html(htmlcontent);
             var listCount=response.data.list.length;
@@ -46,8 +47,7 @@ function getcomment(pagenum,isInitPage)
                 var current=response.data.pagination.current;
                 initPagination(total,current);
                 $('#pagination1').show();
-            }
-      
+            }     
         }      
     })
     .catch(function (error) {
@@ -91,7 +91,7 @@ function delcomment(cid)
               alert("删除评论成功！");
               //刷新页面列表
               // var num=parseInt($("#hidPageNum").val());
-              getCollections(1,true);
+              getcomment(1,true);
               
           }
           else if(returnData.code==10012)

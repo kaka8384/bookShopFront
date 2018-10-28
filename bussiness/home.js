@@ -35,8 +35,9 @@ function getTopSalesProduct()
                     if(tag<=3)
                     {
                         imgWidth='199px';
-                    }
                         imgHeight='199px';
+                    }
+                       
                     $("#topSales"+tag).html("<div class=\"outer-con\"><div class=\"title\">"
                     +item.name+"</div><div class=\"sub-title\">售价：¥"
                     +item.price.$numberDecimal+"</div></div><a href=\"introduction.html?pid="+item._id+"\"><img width='"+imgWidth+"' height='"+imgHeight+"' src=\""+item.images[0]+"\"/></a>");
